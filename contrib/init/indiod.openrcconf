@@ -1,0 +1,27 @@
+# /etc/conf.d/indiod: config file for /etc/init.d/indiod
+
+# Config file location
+#INDIOD_CONFIGFILE="/etc/indio/indio.conf"
+
+# What directory to write pidfile to?  (created and owned by $INDIOD_USER)
+#INDIOD_PIDDIR="/var/run/indiod"
+
+# What filename to give the pidfile
+#INDIOD_PIDFILE="${INDIOD_PIDDIR}/indiod.pid"
+
+# Where to write indiod data (be mindful that the blockchain is large)
+#INDIOD_DATADIR="/var/lib/indiod"
+
+# User and group to own indiod process
+#INDIOD_USER="indio"
+#INDIOD_GROUP="indio"
+
+# Path to indiod executable
+#INDIOD_BIN="/usr/bin/indiod"
+
+# Nice value to run indiod under
+#INDIOD_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+INDIOD_OPTS="-disablewallet"
+

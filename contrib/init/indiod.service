@@ -1,0 +1,22 @@
+[Unit]
+Description=Indiocoin's distributed currency daemon
+After=network.target
+
+[Service]
+User=indio
+Group=indio
+
+Type=forking
+PIDFile=/var/lib/indiod/indiod.pid
+ExecStart=/usr/bin/indiod -daemon -pid=/var/lib/indiod/indiod.pid \
+-conf=/etc/indio/indio.conf -datadir=/var/lib/indiod -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

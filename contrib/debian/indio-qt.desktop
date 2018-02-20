@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Indiocoin
+Comment=Indiocoin P2P Cryptocurrency
+Comment[fr]=Indiocoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Indiocoin, eşten eşe kriptografik sanal para birimi
+Exec=indio-qt %u
+Terminal=false
+Type=Application
+Icon=indio128
+MimeType=x-scheme-handler/indio;
+Categories=Office;Finance;

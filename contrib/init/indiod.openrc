@@ -1,0 +1,88 @@
+#!/sbin/runscript
+
+# backward compatibility for existing gentoo layout 
+#
+if [ -d "/var/lib/indio/.indio" ]; then
+	INDIOD_DEFAULT_DATADIR="/var/lib/indio/.indio"
+else
+	INDIOD_DEFAULT_DATADIR="/var/lib/indiod"
+fi
+
+INDIOD_CONFIGFILE=${INDIOD_CONFIGFILE:-/etc/indio/indio.conf}
+INDIOD_PIDDIR=${INDIOD_PIDDIR:-/var/run/indiod}
+INDIOD_PIDFILE=${INDIOD_PIDFILE:-${INDIOD_PIDDIR}/indiod.pid}
+INDIOD_DATADIR=${INDIOD_DATADIR:-${INDIOD_DEFAULT_DATADIR}}
+INDIOD_USER=${INDIOD_USER:-${INDIO_USER:-indio}}
+INDIOD_GROUP=${INDIOD_GROUP:-indio}
+INDIOD_BIN=${INDIOD_BIN:-/usr/bin/indiod}
+INDIOD_NICE=${INDIOD_NICE:-${NICELEVEL:-0}}
+INDIOD_OPTS="${INDIOD_OPTS:-${INDIO_OPTS}}"
+
+name="Indiocoin Core Daemon"
+description="Indiocoin cryptocurrency P2P network daemon"
+
+command="/usr/bin/indiod"
+command_args="-pid=\"${INDIOD_PIDFILE}\" \
+		-conf=\"${INDIOD_CONFIGFILE}\" \
+		-datadir=\"${INDIOD_DATADIR}\" \
+		-daemon \
+		${INDIOD_OPTS}"
+
+required_files="${INDIOD_CONFIGFILE}"
+start_stop_daemon_args="-u ${INDIOD_USER} \
+			-N ${INDIOD_NICE} -w 2000"
+pidfile="${INDIOD_PIDFILE}"
+retry=60
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${INDIOD_USER}:${INDIOD_GROUP}" \
+	"${INDIOD_DATADIR}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${INDIOD_USER}:${INDIOD_GROUP}" \
+	"${INDIOD_PIDDIR}"
+
+	checkpath -f \
+	-o ${INDIOD_USER}:${INDIOD_GROUP} \
+	-m 0660 \
+	${INDIOD_CONFIGFILE}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${INDIOD_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run indiod."
+		eerror "The setting must appear in ${INDIOD_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following"
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "It is also recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"Indiocoin Alert\"" \
+			"admin@foo.com"
+		eerror ""
+		return 1
+	fi
+}

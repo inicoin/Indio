@@ -1,0 +1,3 @@
+debian/manpages/indiod.1
+debian/manpages/indio.conf.5
+debian/manpages/indio-cli.1
