@@ -1,6 +1,7 @@
-# Indiocoin Core [INDIO, Ð]
+# Indiocoin Core
 ==========================
 
+RPC port 22559
 
 ## What is Indiocoin? – Such coin
 Indiocoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as its proof of work (POW). Taking development cues from Tenebrix and Litecoin, Indiocoin currently employs a simplified variant of scrypt.
