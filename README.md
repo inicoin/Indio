@@ -34,10 +34,6 @@ Indiocoin uses a simplified variant of the scrypt key derivation function as its
 Originally, a different payout scheme was envisioned with block rewards being determined by taking the maximum reward as per the block schedule and applying the result of a Mersenne Twister pseudo-random number generator to arrive at a number between 0 and the maximum reward. This was changed, starting with block 145,000, to prevent large pools from gaming the system and mining only high reward blocks. At the same time, the difficulty retargeting was also changed from four hours to once per block (every minute), implementing an algorithm courtesy of the DigiByte Coin development team, to lessen the impact of sudden increases and decreases of network hashing rate.
 
 
-### Such ports
-RPC 22555
-P2P 22556
-
 ![](http://indiosay.com/wow//////such/coin)
 
 Translations
