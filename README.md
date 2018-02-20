@@ -1,5 +1,6 @@
 # Indiocoin Core
 ==========================
+ [Windows wallet](https://github.com/inicoin/wallet-indio-qt/blob/master/indio-qt.exe/).
 
 RPC port 22559
 
